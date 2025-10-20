@@ -16,8 +16,11 @@ alias c='clear'                             # c:            Clear terminal displ
 export AWS_PAGER=''
 export EDITOR='nano'
 
-# Extend path with VS Code, Python, Homebrew support
-export PATH="/usr/local/bin/code:$HOME/Library/Python/3.8/bin:/opt/homebrew/bin:$PATH"
+
+# For Android development
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+# export ANDROID_HOME=$HOME/Library/Android/sdk
+# export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
 
 complete -C "$(which aws_completer)" aws
 
@@ -32,18 +35,23 @@ export NVM_DIR="$HOME/.nvm"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# https://www.matscloud.com/blog/2020/06/25/how-to-use-aws-cdk-with-aws-sso-profiles/
 function awssso() {
     aws sso login --profile $1
     export AWS_PROFILE=$1
-    python3 ~/.aws_sso.py $1
 }
 
-function podman_start() {
-    # this should be run after podman machine init to create the VM
-    podman machine start
-}
+# Extend path with VS Code, Python, Homebrew support
+export PATH="/usr/local/bin/code:/opt/homebrew/bin:$HOME/.local/bin:$PATH"
 
-function podman_stop() {
-    podman machine stop
-}
+# bun completions
+[ -s "/Users/jamie/.bun/_bun" ] && source "/Users/jamie/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/jamie/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
